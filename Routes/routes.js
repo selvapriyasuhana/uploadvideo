@@ -43,6 +43,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/upload", upload.single('video'), async (req, res) => {
+     console.log('Request Body:', req.body);
+  console.log('Request File:', req.file);
     try {
         if (!req.file || path.extname(req.file.originalname).toLowerCase() !== '.mp4') {
             return res.status(400).json({ message: 'A video file (MP4 format) is required.' });
