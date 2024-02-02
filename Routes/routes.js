@@ -1,13 +1,4 @@
-// // routes/index.js
-// const express = require('express');
-// const router = express.Router();
-// const { handleVideoUpload } = require('../Controller/Controller.js');
-
-// router.post('/upload', handleVideoUpload);
-
-// module.exports = router;
 const router = require("express").Router();
-
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -57,7 +48,7 @@ router.post("/upload", upload.single('video'), async (req, res) => {
        
         const params = {
             
-            Bucket: 'elonleave2023', // Replace with your bucket name
+            Bucket: 'elonleave2023', 
             Key: `videos/${req.file.filename}`,
             Body: fileContent,
             ContentType: contentType,
@@ -65,7 +56,7 @@ router.post("/upload", upload.single('video'), async (req, res) => {
         
         const s3UploadResponse = await s3.upload(params).promise();
         console.log('S3 Upload Response:', s3UploadResponse);  
-        const s3BucketUrl = `https://elonleave2023.s3.amazonaws.com`; // Replace with your S3 bucket URL
+        const s3BucketUrl = `https://elonleave2023.s3.amazonaws.com`; 
         const filePath = `videos/${req.file.filename}`;
         const videoUrl = `${s3BucketUrl}/${filePath}`;
          // Save video information to the database
