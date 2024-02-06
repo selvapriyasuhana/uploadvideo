@@ -83,5 +83,56 @@ router.post("/upload", upload.single('video'), async (req, res) => {
         });
     }
 });
+router.post('/register', async (req, res) => {
+    const { mobileNumber } = req.body;
+  
+    try {
+      // Check if the user already exists
+      const existingUser = await User.findOne({ mobileNumber });
+  
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists' });
+      }
+  
+      // Create a new user
+      const newUser = new User({ mobileNumber });
+      await newUser.save();
+  
+      // Return success message
+      return res.status(201).json({ message: 'User registered successfully', user: newUser });
+    } catch (error) {
+      console.error('Error during registration:', error);
+      return res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+  });
+  
+router.post('/login', async (req, res) => {
+    const { mobileNumber } = req.body;
+  
+    try {
+      // Check if the user exists
+      const user = await User.findOne({ mobileNumber });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Return success message
+      return res.status(200).json({ message: 'Login successful', user });
+    } catch (error) {
+      console.error('Error during login:', error);
+      return res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+  });
+  
+var videocontroller = require("../Controller/Controller.js");
+router.route("/getall").get(videocontroller.getAllVideos);
+
+router
+  .route("/videos/:id")
+  .get(videocontroller.getVideoById)
+  .delete(videocontroller.deleteVideo);
+
+
 
 module.exports = router;
