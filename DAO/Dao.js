@@ -1,13 +1,38 @@
-// // dao/videoDao.js
-// const Video = require('../Model/model.js');
+const Video = require('../Model/model.js');
 
-// const saveVideo = async (title, description, url) => {
-//   const video = new Video({
-//     title,
-//     description,
-//     url,
-//   });
-//   return await video.save();
-// };
+exports.getAllVideos = async () => {
+    try {
+        return await Video.find();
+    } catch (error) {
+        throw error;
+    }
+};
 
-// module.exports = { saveVideo };
+exports.getVideoById = async (videoId) => {
+    try {
+        return await Video.findById(videoId);
+    } catch (error) {
+        throw error;
+    }
+};
+
+exports.addVideo = async (videoData) => {
+    try {
+        const newVideo = new Video(videoData);
+        return await newVideo.save();
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+
+exports.deleteVideo = async (videoId) => {
+    try {
+        return await Video.findByIdAndDelete(videoId);
+    } catch (error) {
+        throw error;
+    }
+};
+
+
