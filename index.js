@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 
 var app = new express();
 var VideoRoutes = require("./Routes/routes.js");
+var CommentreplyRoutes =require("./Routes/commentreplyroutes.js")
 
 var mongodb = require("./Config/Mongoconfig.js");
 dotenv.config();
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 
-const mongo = mongoose.connect(mongodb.url1);
+const mongo = mongoose.connect(mongodb.url);
 mongo.then(
   () => {
     console.log("Mongo_DB Connected Successfully");
@@ -28,7 +29,7 @@ mongo.then(
   }
 );
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 6000;
 app.listen(port, () => {
   console.log("Server running on port " + port);
 });
@@ -36,5 +37,6 @@ app.listen(port, () => {
 app.get("/", (req, res) => res.send("s3bucket video "));
 
 app.use("/api", VideoRoutes);
+app.use("/api",CommentreplyRoutes)
 
 module.exports = app;
