@@ -1,41 +1,54 @@
-// const aws = require('aws-sdk');
-// const multer = require('multer');
-// const multerS3 = require('multer-s3');
-// const dotenv = require('dotenv');
-// const fs = require('fs');
+const Dao = require('../DAO/Dao.js');
 
-// dotenv.config();
+const getAllVideos = async () => {
+    try {
+        const videos = await Dao.getAllVideos();
+        return videos;
+    } catch (error) {
+        throw error;
+    }
+};
 
-// aws.config.update({
-//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//   region: process.env.AWS_REGION,
-// });
+const getVideoById = async (videoId) => {
+    try {
+        const video = await Dao.getVideoById(videoId);
+        return video;
+    } catch (error) {
+        throw error;
+    }
+};
 
-// const s3 = new aws.S3();
+const addVideo = async (videoData) => {
+    try {
+        const newVideo = await Dao.addVideo(videoData);
+        return newVideo;
+    } catch (error) {
+        throw error;
+    }
+};
 
-// const fileFilter = (req, file, cb) => {
-//   // Check file type, e.g., allow only videos
-//   if (file.mimetype.startsWith('video/')) {
-//     cb(null, true);
-//   } else {
-//     cb(new Error('Invalid file type. Only videos are allowed.'));
-//   }
-// };
+const updateVideo = async (videoId, updatedData) => {
+    try {
+        const updatedVideo = await Dao.updateVideo(videoId, updatedData);
+        return updatedVideo;
+    } catch (error) {
+        throw error;
+    }
+};
 
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: process.env.AWS_S3_BUCKET_NAME,
-//     acl: 'public-read',
-//     key: function (req, file, cb) {
-//       const category = 'educational';
-//       const key = `videos/${category}/${Date.now().toString()}-${file.originalname}`;
-//       console.log('Generating S3 key:', key);
-//       cb(null, key);
-//     },
-//   }),
-//   fileFilter: fileFilter,
-// });
+const deleteVideo = async (videoId) => {
+    try {
+        const deletedVideo = await Dao.deleteVideo(videoId);
+        return deletedVideo;
+    } catch (error) {
+        throw error;
+    }
+};
 
-// module.exports = { upload };
+module.exports = {
+    getAllVideos,
+    getVideoById,
+    addVideo,
+    updateVideo,
+    deleteVideo,
+};
